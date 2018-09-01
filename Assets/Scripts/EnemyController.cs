@@ -12,13 +12,13 @@ public class EnemyController : MonoBehaviour {
     private float nextFire = 0.0F;
     public int AttackDist = 2;
     public GameManager gameManager;
-    //public GameObject gameObject;
+    public GameObject gObj;
 
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
-        GameObject gameObject = GameObject.FindWithTag("GameController");
-        gameManager = gameObject.GetComponent<GameManager>();
+        gObj = GameObject.FindWithTag("GameManager");
+        gameManager = gObj.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -61,7 +61,6 @@ public class EnemyController : MonoBehaviour {
     public void EnemyTakeDamage()
     {
         enemyHealth -= 1;
-        Debug.Log(enemyHealth);
     }
 }
 
