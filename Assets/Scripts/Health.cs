@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour {
+public class Health {
 	public const int maxHealth = 100;
 	public int currentHealth = maxHealth;
 	// Use this for initialization
-	void Start () {
-		
-	}
+
 	public void  Onhit(int amount)
 	{
 		currentHealth -= amount;
@@ -20,7 +18,20 @@ public class Health : MonoBehaviour {
 		}
 	}
 	// Update is called once per frame
+	
+}
+public int currentHealth;
+	public Health;
+	public Text text;
+	
+	
+	void Awake(){
+		var currentHealth = GetComponet<Health>();
+		text = GetComponent <Text>();
+		text.text = "HP: " + currentHealth;
+		Health = new Health()
+	}
+	// Update is called once per frame
 	void Update () {
 		
 	}
-}
