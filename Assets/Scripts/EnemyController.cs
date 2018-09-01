@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update() { 
 
         //Check if enemy health is greater than 0, if so update movement.
         //If not, then update player score and destroy this enemy.
