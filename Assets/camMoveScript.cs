@@ -48,7 +48,7 @@ public class camMoveScript : MonoBehaviour {
                 Quaternion wantedRotation = point2.transform.rotation;
     
                 //then rotate
-                transform.rotation = Quaternion.Lerp(transform.rotation, wantedRotation, Time.time * rotateSpeed);
+                transform.rotation = Quaternion.Lerp(transform.rotation, wantedRotation, Time.deltaTime * rotateSpeed);
             
             }
         }
