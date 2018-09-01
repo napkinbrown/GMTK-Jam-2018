@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
     public void CharacterAttacked()
     {
         playerHealth -= 1;
+        Debug.Log("LMAO");
     }
     
     public void EnemyDestroyed()
