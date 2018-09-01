@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-    public int playerScore;
+  
+	  public int playerScore;
     public int playerHealth;
   
     private void Awake()
@@ -34,6 +35,11 @@ public class GameManager : MonoBehaviour {
         Debug.Log(hitInfo.collider.name);
     }
 
+
+    /**
+     * THIS IS A PLACEHOLDER FUNCTION
+     * 
+     */
     public void PlayerIsReloading()
     {
         Debug.Log("Reloading... (Replace me with UI animations eventually)");
@@ -47,7 +53,6 @@ public class GameManager : MonoBehaviour {
     public void CharacterAttacked()
     {
         playerHealth -= 1;
-        Debug.Log("LMAO");
     }
     
     public void EnemyDestroyed()
