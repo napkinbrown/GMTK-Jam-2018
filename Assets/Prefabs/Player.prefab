@@ -185,7 +185,9 @@ MonoBehaviour:
   walkSpeed: 2
   strafeSpeed: 2
   mouseSensitivity: 30
-  gunPosition: {fileID: 4159199282671828}
+  reloadForSeconds: 1
+  initialBullets: 6
+  gunPosition: {fileID: 4363682602500546}
 --- !u!136 &136503869036747962
 CapsuleCollider:
   m_ObjectHideFlags: 1

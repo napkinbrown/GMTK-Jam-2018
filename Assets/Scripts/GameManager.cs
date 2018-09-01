@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-  
-	public int playerScore;
+    public int playerScore;
+
     public int playerHealth;
   
     private void Awake()
@@ -41,6 +41,16 @@ public class GameManager : MonoBehaviour {
 
         }
         //GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
+    }
+
+    public void PlayerIsReloading()
+    {
+        Debug.Log("Reloading... (Replace me with UI animations eventually)");
+    }
+
+    public void PlayerIsDoneReloading()
+    {
+        Debug.Log("Done! (Replace me with UI animations eventually)");
     }
   
     public void CharacterAttacked()
