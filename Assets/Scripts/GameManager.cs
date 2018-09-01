@@ -34,6 +34,16 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log(hitInfo.collider.name);
     }
+
+    public void PlayerIsReloading()
+    {
+        Debug.Log("Reloading... (Replace me with UI animations eventually)");
+    }
+
+    public void PlayerIsDoneReloading()
+    {
+        Debug.Log("Done! (Replace me with UI animations eventually)");
+    }
   
     public void CharacterAttacked()
     {
