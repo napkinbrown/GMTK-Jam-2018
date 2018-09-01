@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public GameObject cameraManager;
+
     public static GameManager instance = null;
     public int playerScore;
-
     public int playerHealth;
   
     private void Awake()
@@ -23,7 +24,8 @@ public class GameManager : MonoBehaviour {
 	
     // Update is called once per frame
     void Update () {
-
+        if (Input.GetKeyDown(KeyCode.F))
+                cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
     }
 
     /**
@@ -43,6 +45,11 @@ public class GameManager : MonoBehaviour {
         //GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
     }
 
+
+    /**
+     * THIS IS A PLACEHOLDER FUNCTION
+     * 
+     */
     public void PlayerIsReloading()
     {
         Debug.Log("Reloading... (Replace me with UI animations eventually)");
