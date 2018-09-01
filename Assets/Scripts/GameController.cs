@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    public GameObject cameraManager;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +13,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyDown(KeyCode.F))
+                cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
 	}
 }
