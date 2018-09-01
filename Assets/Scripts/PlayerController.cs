@@ -10,6 +10,12 @@ public class PlayerController : MonoBehaviour {
 
     public float reloadForSeconds;
 
+    public int maxHealth;
+    private int currentHealth
+    {
+        get; set;
+    }
+
     public int initialBullets = 6;
     private int currentBullets
     {
@@ -86,10 +92,14 @@ public class PlayerController : MonoBehaviour {
         {
             if (currentBullets > 1)
                 FireGun();
-            else if (!reloading) {
+            else {
                 FireGun();
                 StartCoroutine("Reload");
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
+            StartCoroutine("Reload");
         }
     }
 
@@ -120,16 +130,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator Reload() {
-        reloading = true;
-        while (true)
+        if (!reloading && (currentBullets < initialBullets))
         {
+            reloading = true;
+
             gm.PlayerIsReloading();
             yield return new WaitForSeconds(reloadForSeconds);
             gm.PlayerIsDoneReloading();
 
             currentBullets = initialBullets;
             reloading = false;
-            break;
         }
     }
 }
