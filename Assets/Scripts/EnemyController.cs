@@ -11,10 +11,13 @@ public class EnemyController : MonoBehaviour {
     public float fireRate = 1.5F;
     private float nextFire = 0.0F;
     public int AttackDist = 2;
+    public GameManager gameManager;
+    //public GameObject gameManager = GameObject.FindWithTag("GameManager");
 
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
+        gameManager = GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -40,12 +43,15 @@ public class EnemyController : MonoBehaviour {
             if ((Vector3.Distance(this.transform.position, Player.position) <= AttackDist) && (Time.time > nextFire))
             {
                 nextFire = Time.time + fireRate;
+                gameManager.CharacterAttacked();
                 Debug.Log("RAWR");
             }
         }
         else
         {
             //Needs: Update player score and play Death sound
+            
+            gameManager.EnemyDestroyed();
             Destroy(this.gameObject);
         }
         
