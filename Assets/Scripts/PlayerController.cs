@@ -27,9 +27,16 @@ public class PlayerController : MonoBehaviour {
         if (gmObject != null)
             gm = gmObject.GetComponent<GameManager>();
         else
-            Debug.LogError("Could not find Game Manager!", this);
+            Debug.LogError("Could not find Game Manager! Please make sure there is one in the scene!", this);
 
-        gunPosition = GetComponentInChildren<Transform>();
+        GameObject[] children = GetComponentsInChildren<GameObject>();
+        foreach (GameObject child in children) {
+            if (child.name == "Gun")
+                gunPosition = child.transform;
+        }
+        if (gunPosition == null)
+            Debug.LogError("Couldn't find player gun object!", this);
+
         currentBullets = initialBullets;
     }
 
@@ -77,9 +84,10 @@ public class PlayerController : MonoBehaviour {
          */
         if (Input.GetButtonDown("Fire1"))
         {
-            if (currentBullets > 0)
+            if (currentBullets > 1)
                 FireGun();
             else if (!reloading) {
+                FireGun();
                 StartCoroutine("Reload");
             }
         }
@@ -94,7 +102,7 @@ public class PlayerController : MonoBehaviour {
 
         float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
         float xComponent = Mathf.Cos(gunRotation * Mathf.Deg2Rad);
-        float zComponent = Mathf.Sin(gunRotation * Mathf.Deg2Rad);
+        float zComponent = -Mathf.Sin(gunRotation * Mathf.Deg2Rad);
         Vector3 direction = new Vector3(xComponent, 0, zComponent);
 
         // Layer mask determines what gets hit. Here i'm telling it to hit everything except the Player layer
@@ -102,6 +110,7 @@ public class PlayerController : MonoBehaviour {
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
 
+        //Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
         Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
 
         if (hitInfo.collider != null)
