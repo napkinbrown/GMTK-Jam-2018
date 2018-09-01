@@ -86,18 +86,20 @@ public class PlayerController : MonoBehaviour {
         {
             if (currentBullets > 1)
                 FireGun();
-            else if (!reloading) {
+            else {
                 FireGun();
                 StartCoroutine("Reload");
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
+            StartCoroutine("Reload");
         }
     }
 
     private void FireGun()
     {
         currentBullets--;
-        Debug.Log(currentBullets);
-
         RaycastHit hitInfo;
 
         float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
@@ -110,26 +112,26 @@ public class PlayerController : MonoBehaviour {
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
 
-        //Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
+        Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
         Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
 
         if (hitInfo.collider != null)
         {
-            gm.PlayerShotObject(hitInfo);
+            gm.PlayerShotObject(hitInfo, currentBullets);
         }
     }
 
     IEnumerator Reload() {
-        reloading = true;
-        while (true)
+        if (!reloading && (currentBullets < initialBullets))
         {
+            reloading = true;
+
             gm.PlayerIsReloading();
             yield return new WaitForSeconds(reloadForSeconds);
             gm.PlayerIsDoneReloading();
 
             currentBullets = initialBullets;
             reloading = false;
-            break;
         }
     }
 }

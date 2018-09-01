@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour {
     /**
     * Called by player when it shoots something
     * @param hitInfo The information of the object it shot
+    * @param currentAmmo The amount of ammo the player currently has
     */
-    public void PlayerShotObject(RaycastHit hitInfo)
+    public void PlayerShotObject(RaycastHit hitInfo, int currentAmmo)
     {
         Debug.Log(hitInfo.collider.name);
         GameObject hitObject = GameObject.Find(hitInfo.collider.name);
