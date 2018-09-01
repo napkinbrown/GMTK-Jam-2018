@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33521792075451390}
   - component: {fileID: 23387859784171620}
   - component: {fileID: 65402624626358364}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 23763984558474312}
   - component: {fileID: 136503869036747962}
   - component: {fileID: 114384352139502786}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,14 +54,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645573210566086}
-  m_LocalRotation: {x: -0, y: -0.26497564, z: -0, w: 0.9642551}
+  m_LocalRotation: {x: 0, y: -0.6207373, z: 0, w: 0.78401864}
   m_LocalPosition: {x: -0.24549678, y: 1.05, z: -1.3019485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4363682602500546}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -30.731, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -76.74, z: 0}
 --- !u!4 &4363682602500546
 Transform:
   m_ObjectHideFlags: 1
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180107038297830}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.54999995, y: 0.34000003, z: -0.27999997}
+  m_LocalPosition: {x: 0.67, y: 0.34000003, z: -0.35}
   m_LocalScale: {x: 1.1676786, y: 0.23433273, z: 0.21204}
   m_Children: []
   m_Father: {fileID: 4159199282671828}
@@ -185,6 +185,8 @@ MonoBehaviour:
   walkSpeed: 2
   strafeSpeed: 2
   mouseSensitivity: 30
+  gm: {fileID: 0}
+  gunPosition: {fileID: 4363682602500546}
 --- !u!136 &136503869036747962
 CapsuleCollider:
   m_ObjectHideFlags: 1
