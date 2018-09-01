@@ -100,8 +100,6 @@ public class PlayerController : MonoBehaviour {
     private void FireGun()
     {
         currentBullets--;
-        Debug.Log(currentBullets);
-
         RaycastHit hitInfo;
 
         float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
@@ -119,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 
         if (hitInfo.collider != null)
         {
-            gm.PlayerShotObject(hitInfo);
+            gm.PlayerShotObject(hitInfo, currentBullets);
         }
     }
 
