@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public float strafeSpeed = 2;
     public float mouseSensitivity = 30;
 
-    public GameManager gm;
+    private GameManager gm;
     public Transform gunPosition;
 
     void Start()
