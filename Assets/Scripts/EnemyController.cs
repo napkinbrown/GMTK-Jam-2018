@@ -15,12 +15,6 @@ public class EnemyController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(Time.time);
-
-        if (Time.time > 30f)
-        {
-            Destroy(this.gameObject);
-        }
         //Check if enemy health is greater than 0, if so update movement.
         //If not, then update player score and destroy this enemy.
         if (enemyHealth > 0) { 
@@ -41,6 +35,11 @@ public class EnemyController : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
+    }
+
+    public void EnemyTakeDamage()
+    {
+        enemyHealth -= 1;
     }
 }
 
