@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
   
-	  public int playerScore;
+	public int playerScore;
     public int playerHealth;
   
     private void Awake()
@@ -33,12 +33,19 @@ public class GameManager : MonoBehaviour {
     public void PlayerShotObject(RaycastHit hitInfo)
     {
         Debug.Log(hitInfo.collider.name);
+        GameObject hitObject = GameObject.Find(hitInfo.collider.name);
+        if (hitObject.tag == "EnemyObject")
+        {
+           EnemyController enemy = hitObject.GetComponent<EnemyController>();
+            enemy.EnemyTakeDamage();
+
+        }
+        //GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
     }
   
     public void CharacterAttacked()
     {
         playerHealth -= 1;
-        Debug.Log("LMAO");
     }
     
     public void EnemyDestroyed()

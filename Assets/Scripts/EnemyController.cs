@@ -12,12 +12,12 @@ public class EnemyController : MonoBehaviour {
     private float nextFire = 0.0F;
     public int AttackDist = 2;
     public GameManager gameManager;
-    public GameObject gameObject;
+    //public GameObject gameObject;
 
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
-        gameObject = GameObject.FindWithTag("GameController");
+        GameObject gameObject = GameObject.FindWithTag("GameController");
         gameManager = gameObject.GetComponent<GameManager>();
     }
 
@@ -45,7 +45,6 @@ public class EnemyController : MonoBehaviour {
             {
                 nextFire = Time.time + fireRate;
                 gameManager.CharacterAttacked();
-                Debug.Log("RAWR");
             }
         }
         else
@@ -62,6 +61,7 @@ public class EnemyController : MonoBehaviour {
     public void EnemyTakeDamage()
     {
         enemyHealth -= 1;
+        Debug.Log(enemyHealth);
     }
 }
 
