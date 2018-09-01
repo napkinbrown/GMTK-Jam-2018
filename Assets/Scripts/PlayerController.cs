@@ -13,9 +13,8 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
-        GameObject gmObject = GetComponent<GameObject>();
-        if (gmObject == null)
-            // This throws an error for some reason, but it works alright
+        GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
+        if (gmObject != null)
             gm = gmObject.GetComponent<GameManager>();
         else
             Debug.LogError("Could not find Game Manager!", this);
