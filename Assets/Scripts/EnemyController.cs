@@ -5,9 +5,13 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
     public int enemyHealth;
     public Transform Player;
-    int MoveSpeed = 4;
-    int MaxDist = 10;
-    int MinDist = 1;
+    public int MoveSpeed = 4;
+    public int MaxDist = 10;
+    public int MinDist = 1;
+    public float fireRate = 1.5F;
+    private float nextFire = 0.0F;
+    public int AttackDist = 2;
+
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
@@ -15,15 +19,11 @@ public class EnemyController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(Time.time);
 
-        if (Time.time > 30f)
-        {
-            Destroy(this.gameObject);
-        }
         //Check if enemy health is greater than 0, if so update movement.
         //If not, then update player score and destroy this enemy.
-        if (enemyHealth > 0) { 
+        if (enemyHealth > 0)
+        {
             Player = GameObject.FindWithTag("Player").transform;
             this.transform.LookAt(Player);
 
@@ -35,12 +35,26 @@ public class EnemyController : MonoBehaviour {
                     this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
                 }
             }
-            else
+
+            //Attack player if close enough
+            if ((Vector3.Distance(this.transform.position, Player.position) <= AttackDist) && (Time.time > nextFire))
             {
-                //Update player score
-                Destroy(this.gameObject);
+                nextFire = Time.time + fireRate;
+                Debug.Log("RAWR");
             }
         }
+        else
+        {
+            //Needs: Update player score and play Death sound
+            Destroy(this.gameObject);
+        }
+        
+    }
+
+    //Simple function to update the current enemy's health
+    public void EnemyTakeDamage()
+    {
+        enemyHealth -= 1;
     }
 }
 
