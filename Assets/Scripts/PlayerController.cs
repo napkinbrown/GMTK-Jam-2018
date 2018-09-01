@@ -10,12 +10,6 @@ public class PlayerController : MonoBehaviour {
 
     public float reloadForSeconds;
 
-    public int maxHealth;
-    private int currentHealth
-    {
-        get; set;
-    }
-
     public int initialBullets = 6;
     private int currentBullets
     {
@@ -120,7 +114,7 @@ public class PlayerController : MonoBehaviour {
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
 
-        //Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
+        Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
         Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
 
         if (hitInfo.collider != null)
