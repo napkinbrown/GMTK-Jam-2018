@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public GameObject cameraManager;
+
     public static GameManager instance = null;
     public int playerScore;
     public int playerHealth;
@@ -22,7 +24,8 @@ public class GameManager : MonoBehaviour {
 	
     // Update is called once per frame
     void Update () {
-
+        if (Input.GetKeyDown(KeyCode.F))
+                cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
     }
 
     /**
