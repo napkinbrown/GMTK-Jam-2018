@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     public List<GameObject> enemyMovePoint = new List<GameObject>();
     private string lookAtMe;
     private GameObject lookAtMeObj;
+    public AudioSource deathSound;
 
     // Use this for initialization
     void Awake()
@@ -85,15 +86,17 @@ public class EnemyController : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                //Needs: play Death sound
-                StartCoroutine(EnemyDeathFlash(0.1f));
-
-                //Everything past the line below will not be run
-                gameManager.EnemyDestroyed();
-                //Destroy(this.gameObject);
-            }
+        }
+        else
+        {
+            //Needs: play Death sound
+            StartCoroutine(EnemyDeathFlash(0.1f));
+            
+            deathSound.Play();
+            //Everything past the line below will not be run
+            gameManager.EnemyDestroyed();
+            //Destroy(this.gameObject);
+        }
 
         }
     }

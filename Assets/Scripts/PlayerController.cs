@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     private GameManager gm;
     public Transform gunPosition;
 
+    public AudioSource gunShot;
+
     void Start()
     {
         currentBullets = initialBullets;
@@ -124,6 +126,7 @@ public class PlayerController : MonoBehaviour {
             currentBullets--;
             Debug.Log(currentBullets);
             RaycastHit hitInfo = GetHit();
+            gunShot.Play();
             if (hitInfo.collider != null)
             {
                 gm.PlayerShotObject(hitInfo, currentBullets);
