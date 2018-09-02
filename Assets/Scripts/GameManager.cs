@@ -1,9 +1,19 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-
+  
+    public const int maxHealth = 100;
+	public int currentHealth = maxHealth;
+	public int bullets = 5;
+	bool isDead;
+	bool hurt;
+	public Text printHealth;
+	public Text printBullets;
+	
+ 
     public GameObject cameraManager;
 
     public static GameManager instance = null;
@@ -14,20 +24,45 @@ public class GameManager : MonoBehaviour {
     {
         // Singleton
         if (instance == null)
-            instance = this;
+          instance = this;
         else
-            Destroy(gameObject);
-      
+          Destroy(gameObject);
+
         playerHealth = 4;
         playerScore = 0;
+        printBullets.text = "" + bullets;
+        printHealth.text = "" + currentHealth;
     }
-	
+    
     // Update is called once per frame
     void Update () {
         if (Input.GetKeyDown(KeyCode.F))
                 cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
     }
 
+    public void onHit(int amount){
+		currentHealth -= amount;
+		if(currentHealth <= 0)
+		{
+			currentHealth = 0;
+			//change on creation of death state
+			Death();
+		}
+	}
+  
+	public void onPickup(int amount){
+		currentHealth += amount;
+		if(currentHealth >= maxHealth)
+		{
+			currentHealth = maxHealth;
+		}
+	}
+    
+	void Death () {
+		isDead = true;
+		Debug.Log("YOU ARE DEAD");
+    }
+    
     /**
     * Called by player when it shoots something
     * @param hitInfo The information of the object it shot
@@ -77,4 +112,5 @@ public class GameManager : MonoBehaviour {
     {
         playerScore += 10;
     }
+
 }
