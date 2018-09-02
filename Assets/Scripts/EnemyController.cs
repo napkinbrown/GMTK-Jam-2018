@@ -15,20 +15,19 @@ public class EnemyController : MonoBehaviour
     public int AttackDist = 2;
     public GameManager gameManager;
     public GameObject gObj;
-    private SpriteRenderer spRndrer;
+    public SpriteRenderer spRndrer;
     public List<GameObject> enemyMovePoint = new List<GameObject>();
     private string lookAtMe;
     private GameObject lookAtMeObj;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         enemyHealth = 4;
         gObj = GameObject.FindWithTag("GameManager");
         gameManager = gObj.GetComponent<GameManager>();
-        spRndrer = this.GetComponent<SpriteRenderer>();
         lookAtMe = "MainCamera";
-        SetupEnemy(GameObject.Find("WaypointOne").transform);
+        //SetupEnemy(GameObject.Find("WaypointOne").transform);
         //SetupEnemy(new List<GameObject>() {GameObject.Find("WaypointOne"), GameObject.Find("WaypointTwo") });
     }
 
@@ -117,7 +116,6 @@ public class EnemyController : MonoBehaviour
         }
         spRndrer.enabled = false;
         gameObject.SetActive(false);
-
     }
 
 
@@ -156,6 +154,7 @@ public class EnemyController : MonoBehaviour
 
         //re-enable object and renderer
         gameObject.SetActive(true);
+
         spRndrer.enabled = true;
     }
 }

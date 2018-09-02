@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour {
     void Start()
     {
         currentBullets = initialBullets;
-        Debug.Log(currentBullets);
 
         /* 
          * Getting the Game Manager
