@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 
     public float reloadForSeconds;
 
-    public static int initialBullets = 6;
+    public static int initialBullets = 1000;
     public int currentBullets = 0;
 
     private bool reloading = false;
