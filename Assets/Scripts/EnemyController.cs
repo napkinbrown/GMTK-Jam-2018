@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
         gameManager = gObj.GetComponent<GameManager>();
         spRndrer = this.GetComponent<SpriteRenderer>();
         lookAtMe = "MainCamera";
-
+        SetupEnemy(GameObject.Find("WaypointOne").transform);
         //SetupEnemy(new List<GameObject>() {GameObject.Find("WaypointOne"), GameObject.Find("WaypointTwo") });
     }
 
@@ -118,10 +118,14 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    public void SetupEnemy(List<GameObject> checkpointList)
+
+    //Sets up where the enemy will start and the path that he will follow before chasing the main Camera.
+    //first parameter in the list will be the spawn point, then what ever is left in the list will become the waypoints.
+    //the list should read from left to right list[startposition , first waypoint, second waypoint, ...]
+    public void SetupEnemy(List<GameObject> DestinationList)
     {
         //move enemy to position
-        gameObject.transform.position = checkpointList[0].transform.position;
+        gameObject.transform.position = DestinationList[0].transform.position;
 
         //Set health to full
         enemyHealth = maxEnemyHealth;
@@ -131,12 +135,26 @@ public class EnemyController : MonoBehaviour
         spRndrer.enabled = true;
 
         //Set move points
-        checkpointList.RemoveAt(0);
-        enemyMovePoint = checkpointList;
+        DestinationList.RemoveAt(0);
+        enemyMovePoint = DestinationList;
         if (enemyMovePoint.Count > 0)
         {
             lookAtMeObj = enemyMovePoint[0];
         }
+    }
+
+    //Sets up enemy at a spawn point with full health ^w^ rawr
+    public void SetupEnemy(Transform spawn)
+    {
+        //move enemy to position
+        gameObject.transform.position = spawn.position;
+
+        //Set health to full
+        enemyHealth = maxEnemyHealth;
+
+        //re-enable object and renderer
+        gameObject.SetActive(true);
+        spRndrer.enabled = true;
     }
 }
 
