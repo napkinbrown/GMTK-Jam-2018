@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
 
         currentBullets = PlayerController.initialBullets;
 
+        ToggleHideMouse();
         updateHUD();
     }
     
@@ -38,6 +39,9 @@ public class GameManager : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown(KeyCode.F))
                 cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ToggleHideMouse();
     }
 
     public void updateHUD()
@@ -123,10 +127,22 @@ public class GameManager : MonoBehaviour {
             //Load death screen
         }
     }
-    
+
     public void EnemyDestroyed()
     {
         playerScore += 10;
+    }
+
+    public void ToggleHideMouse()
+    {
+        if (Cursor.visible)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else {
+            Cursor.visible = true;
+        }
     }
 
 }
