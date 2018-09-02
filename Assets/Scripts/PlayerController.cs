@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public ParticleSystem flashParticle;
+    public GameObject crosshair;
 
     public float walkSpeed = 2;
     public float strafeSpeed = 2;
@@ -103,6 +104,10 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
             StartCoroutine("Reload");
         }
+        RaycastHit hitInfo = GetHit();
+        if (hitInfo.collider.CompareTag("CameraMan")) {
+            crosshair.transform.position = new Vector3(hitInfo.point.x, crosshair.transform.position.y, crosshair.transform.position.z);
+        }
     }
 
     private void FireGun()
@@ -111,7 +116,16 @@ public class PlayerController : MonoBehaviour {
         {
             currentBullets--;
             Debug.Log(currentBullets);
-            RaycastHit hitInfo;
+            RaycastHit hitInfo = GetHit();
+            if (hitInfo.collider != null)
+            {
+                gm.PlayerShotObject(hitInfo, currentBullets);
+            }
+        }
+    }
+
+    private RaycastHit GetHit() {
+        RaycastHit hitInfo;
 
             float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
             float xComponent = Mathf.Cos(gunRotation * Mathf.Deg2Rad);
@@ -126,11 +140,8 @@ public class PlayerController : MonoBehaviour {
             Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
             Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
 
-            if (hitInfo.collider != null)
-            {
-                gm.PlayerShotObject(hitInfo, currentBullets);
-            }
-        }
+
+            return hitInfo;
     }
 
     IEnumerator Reload() {

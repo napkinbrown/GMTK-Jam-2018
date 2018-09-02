@@ -8,6 +8,7 @@ TagManager:
   - EnemyObject
   - Enemies
   - EnemyCheckpointList
+  - CameraMan
   layers:
   - Default
   - TransparentFX
