@@ -113,8 +113,7 @@ public class EnemyController : MonoBehaviour
 
         }
         spRndrer.enabled = false;
-        Destroy(gameObject);
-
+        gameObject.SetActive(false);
     }
 
 

@@ -8,9 +8,10 @@ public class EnemyManager : MonoBehaviour {
     private List<GameObject> enemies;
 
     private List<GameObject> currentEnemies;
+    public int enemiesLeft;
 
     // Use this for initialization
-    void Start() {
+    void Awake() {
     
         for (int i = 0; i < this.transform.childCount; i++)
         {
@@ -22,6 +23,19 @@ public class EnemyManager : MonoBehaviour {
                 enemyCheckpoints = getListOfChildren(child);
         }
 
+    }
+
+    void Update() {
+        foreach (GameObject enemy in currentEnemies)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                currentEnemies.Remove(enemy);
+                enemiesLeft--;
+            }
+
+            Debug.Log(enemiesLeft);
+        }
     }
 
     private List<GameObject> getListOfChildren(GameObject child) {
@@ -68,6 +82,7 @@ public class EnemyManager : MonoBehaviour {
 
     public void spawnEnemiesAtNextCheckpoint() {
         currentEnemies = new List<GameObject>();
+        
 
         GameObject checkpointObj = getNextEnemyCheckpoint();
         EnemyCheckpoint checkpoint = checkpointObj.GetComponent<EnemyCheckpoint>();
@@ -82,6 +97,8 @@ public class EnemyManager : MonoBehaviour {
             currentEnemies.Add(enemy);
             asleepEnemies.RemoveAt(0);
         }
+
+        enemiesLeft = currentEnemies.Count;
     }
 
     public List<GameObject> getEnemies()
