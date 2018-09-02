@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public ParticleSystem flashParticle;
+    public GameObject crosshair;
 
     public float walkSpeed = 2;
     public float strafeSpeed = 2;
@@ -23,7 +24,6 @@ public class PlayerController : MonoBehaviour {
     void Start()
     {
         currentBullets = initialBullets;
-        Debug.Log(currentBullets);
 
         /* 
          * Getting the Game Manager
@@ -47,62 +47,73 @@ public class PlayerController : MonoBehaviour {
         /* !!! Do not put anything below here in Update. Unity is stupid and won't do what you want !!! */
     }
 
-    void Update ()
+    void Update()
     {
-        /*
-         * 
-         * Mouse movement 
-         * 
-         */
-        this.transform.Rotate(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
-
-        /* 
-         * 
-         * Keyboard controlls 
-         * 
-         */
-        Vector3 walkVector = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (!gm.GamePaused && !gm.GameOver)
         {
-            walkVector += new Vector3(walkSpeed * Time.deltaTime, 0);
-        }
+            /*
+             * 
+             * Mouse movement 
+             * 
+             */
+            this.transform.Rotate(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            walkVector += new Vector3(-walkSpeed * Time.deltaTime, 0);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            walkVector += new Vector3(0, 0, strafeSpeed * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            walkVector += new Vector3(0, 0, -strafeSpeed * Time.deltaTime);
-        }
-
-        this.transform.Translate(walkVector, Space.Self);
-
-        /*
-         * 
-         * Firing
-         * 
-         */
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (currentBullets > 1) {
-                FireGun();
-                flashParticle.Play();
+            /* 
+             * 
+             * Keyboard controlls 
+             * 
+             */
+            Vector3 walkVector = Vector3.zero;
+            if (Input.GetKey(KeyCode.W))
+            {
+                walkVector += new Vector3(walkSpeed * Time.deltaTime, 0);
             }
-            else {
-                FireGun();
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                walkVector += new Vector3(-walkSpeed * Time.deltaTime, 0);
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                walkVector += new Vector3(0, 0, strafeSpeed * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                walkVector += new Vector3(0, 0, -strafeSpeed * Time.deltaTime);
+            }
+
+            this.transform.Translate(walkVector, Space.Self);
+
+            /*
+             * 
+             * Firing
+             * 
+             */
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (currentBullets > 1)
+                {
+                    FireGun();
+                    flashParticle.Play();
+                }
+                else
+                {
+                    FireGun();
+                    StartCoroutine("Reload");
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
+            {
                 StartCoroutine("Reload");
             }
-        }
-
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
-            StartCoroutine("Reload");
+            RaycastHit hitInfo = GetHit();
+            if (hitInfo.collider.CompareTag("CameraMan"))
+            {
+                crosshair.transform.position = new Vector3(hitInfo.point.x, crosshair.transform.position.y, crosshair.transform.position.z);
+            }
         }
     }
 
@@ -112,7 +123,16 @@ public class PlayerController : MonoBehaviour {
         {
             currentBullets--;
             Debug.Log(currentBullets);
-            RaycastHit hitInfo;
+            RaycastHit hitInfo = GetHit();
+            if (hitInfo.collider != null)
+            {
+                gm.PlayerShotObject(hitInfo, currentBullets);
+            }
+        }
+    }
+
+    private RaycastHit GetHit() {
+        RaycastHit hitInfo;
 
             float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
             float xComponent = Mathf.Cos(gunRotation * Mathf.Deg2Rad);
@@ -127,11 +147,8 @@ public class PlayerController : MonoBehaviour {
             Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
             Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
 
-            if (hitInfo.collider != null)
-            {
-                gm.PlayerShotObject(hitInfo, currentBullets);
-            }
-        }
+
+            return hitInfo;
     }
 
     IEnumerator Reload() {
