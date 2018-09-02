@@ -13,12 +13,14 @@ public class EnemyController : MonoBehaviour {
     public int AttackDist = 2;
     public GameManager gameManager;
     public GameObject gObj;
+    private SpriteRenderer spRndrer;
 
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
         gObj = GameObject.FindWithTag("GameManager");
         gameManager = gObj.GetComponent<GameManager>();
+        spRndrer = this.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -49,10 +51,11 @@ public class EnemyController : MonoBehaviour {
         }
         else
         {
+            Debug.Log("UHHG im dead jay");
             //Needs: Update player score and play Death sound
-            
+            StartCoroutine(EnemyDeathFlash(0.1f));
             gameManager.EnemyDestroyed();
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
         
     }
@@ -61,6 +64,19 @@ public class EnemyController : MonoBehaviour {
     public void EnemyTakeDamage()
     {
         enemyHealth -= 1;
+    }
+
+    public IEnumerator EnemyDeathFlash(float x)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            spRndrer.enabled = false;
+            yield return new WaitForSeconds(x);
+            spRndrer.enabled = true;
+            yield return new WaitForSeconds(x);
+
+            Debug.Log(spRndrer + " lol " + i);
+        }
     }
 }
 
