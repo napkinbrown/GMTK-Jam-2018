@@ -6,19 +6,17 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
   
     public const int maxHealth = 100;
-	public int currentHealth = maxHealth;
-	public int bullets = 5;
+    public int currentHealth;
+	public int currentBullets = 5;
 	bool isDead;
-	bool hurt;
-	public Text printHealth;
-	public Text printBullets;
-	
+	bool isHurt;
+	public Text healthText;
+	public Text bulletText;
  
     public GameObject cameraManager;
 
     public static GameManager instance = null;
     public int playerScore;
-    public int playerHealth;
   
     private void Awake()
     {
@@ -28,16 +26,28 @@ public class GameManager : MonoBehaviour {
         else
           Destroy(gameObject);
 
-        playerHealth = 4;
+        currentHealth = maxHealth;
         playerScore = 0;
-        printBullets.text = "" + bullets;
-        printHealth.text = "" + currentHealth;
+
+        currentBullets = PlayerController.initialBullets;
+
+        updateHUD();
     }
     
     // Update is called once per frame
     void Update () {
         if (Input.GetKeyDown(KeyCode.F))
                 cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
+    }
+
+    public void updateHUD()
+    {
+        if (currentBullets <= 0)
+            bulletText.text = "R";
+        else
+            bulletText.text = "" + currentBullets;
+
+        healthText.text = "" + currentHealth;
     }
 
     public void onHit(int amount){
@@ -70,7 +80,8 @@ public class GameManager : MonoBehaviour {
     */
     public void PlayerShotObject(RaycastHit hitInfo, int currentAmmo)
     {
-        Debug.Log(hitInfo.collider.name);
+        this.currentBullets = currentAmmo;
+
         GameObject hitObject = GameObject.Find(hitInfo.collider.name);
         if (hitObject.tag == "EnemyObject")
         {
@@ -83,6 +94,8 @@ public class GameManager : MonoBehaviour {
             CharacterAttacked();
         }
         //GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
+
+        updateHUD();
     }
 
 
@@ -97,12 +110,14 @@ public class GameManager : MonoBehaviour {
     public void PlayerIsDoneReloading()
     {
         Debug.Log("Done! (Replace me with UI animations eventually)");
+        currentBullets = PlayerController.initialBullets;
+        updateHUD();
     }
   
     public void CharacterAttacked()
     {
-        if (playerHealth > 0)
-            playerHealth -= 1;
+        if (currentHealth > 0)
+            currentHealth -= 1;
         else {
             //Load death screen
         }

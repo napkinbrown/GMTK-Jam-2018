@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 
     public float reloadForSeconds;
 
-    public int initialBullets = 6;
+    public static int initialBullets = 6;
     public int currentBullets = 0;
 
     private bool reloading = false;
@@ -134,13 +134,13 @@ public class PlayerController : MonoBehaviour {
         if (!reloading && (currentBullets < initialBullets))
         {
             reloading = true;
-
             gm.PlayerIsReloading();
+
             yield return new WaitForSeconds(reloadForSeconds);
-            gm.PlayerIsDoneReloading();
 
             currentBullets = initialBullets;
             reloading = false;
+            gm.PlayerIsDoneReloading();
         }
     }
 }
