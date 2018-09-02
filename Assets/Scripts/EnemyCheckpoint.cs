@@ -14,9 +14,9 @@ public class EnemyCheckpoint : MonoBehaviour {
 
     void Start()
     {
-        List<Transform> spawns = GetSpawnLocationsAtCheckpoint();
-        foreach (Transform spawn in spawns) {
-            Debug.Log(spawn.position);
-        }
+        //List<Transform> spawns = GetSpawnLocationsAtCheckpoint();
+        //foreach (Transform spawn in spawns) {
+        //    Debug.Log(spawn.position);
+        //}
     }
 }
