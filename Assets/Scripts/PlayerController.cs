@@ -48,66 +48,73 @@ public class PlayerController : MonoBehaviour {
         /* !!! Do not put anything below here in Update. Unity is stupid and won't do what you want !!! */
     }
 
-    void Update ()
+    void Update()
     {
-        /*
-         * 
-         * Mouse movement 
-         * 
-         */
-        this.transform.Rotate(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
-
-        /* 
-         * 
-         * Keyboard controlls 
-         * 
-         */
-        Vector3 walkVector = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (!gm.GamePaused && !gm.GameOver)
         {
-            walkVector += new Vector3(walkSpeed * Time.deltaTime, 0);
-        }
+            /*
+             * 
+             * Mouse movement 
+             * 
+             */
+            this.transform.Rotate(0, Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime, 0);
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            walkVector += new Vector3(-walkSpeed * Time.deltaTime, 0);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            walkVector += new Vector3(0, 0, strafeSpeed * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            walkVector += new Vector3(0, 0, -strafeSpeed * Time.deltaTime);
-        }
-
-        this.transform.Translate(walkVector, Space.Self);
-
-        /*
-         * 
-         * Firing
-         * 
-         */
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (currentBullets > 1) {
-                FireGun();
-                flashParticle.Play();
+            /* 
+             * 
+             * Keyboard controlls 
+             * 
+             */
+            Vector3 walkVector = Vector3.zero;
+            if (Input.GetKey(KeyCode.W))
+            {
+                walkVector += new Vector3(walkSpeed * Time.deltaTime, 0);
             }
-            else {
-                FireGun();
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                walkVector += new Vector3(-walkSpeed * Time.deltaTime, 0);
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                walkVector += new Vector3(0, 0, strafeSpeed * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                walkVector += new Vector3(0, 0, -strafeSpeed * Time.deltaTime);
+            }
+
+            this.transform.Translate(walkVector, Space.Self);
+
+            /*
+             * 
+             * Firing
+             * 
+             */
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (currentBullets > 1)
+                {
+                    FireGun();
+                    flashParticle.Play();
+                }
+                else
+                {
+                    FireGun();
+                    StartCoroutine("Reload");
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
+            {
                 StartCoroutine("Reload");
             }
-        }
-
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
-            StartCoroutine("Reload");
-        }
-        RaycastHit hitInfo = GetHit();
-        if (hitInfo.collider.CompareTag("CameraMan")) {
-            crosshair.transform.position = new Vector3(hitInfo.point.x, crosshair.transform.position.y, crosshair.transform.position.z);
+            RaycastHit hitInfo = GetHit();
+            if (hitInfo.collider.CompareTag("CameraMan"))
+            {
+                crosshair.transform.position = new Vector3(hitInfo.point.x, crosshair.transform.position.y, crosshair.transform.position.z);
+            }
         }
     }
 
