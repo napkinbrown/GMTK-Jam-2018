@@ -2,26 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class camMoveScript : MonoBehaviour {
 
 	// Transforms to act as start and end markers for the journey.
         private Transform nextPoint;
 
-        public GameObject bloodImage;
+        public Image bloodImage;
 
         // Movement speed in units/sec.
         public float speed = 5.0F;
         public float rotateSpeed = 0.1F;
 
         private bool getDamage;
-        private Color color;
+        private Color originalColor;
 
         void Start()
         {
             nextPoint = GameObject.Find("Checkpoint 1").transform;
             transform.LookAt(nextPoint.position);
-            color = bloodImage.GetComponent<Renderer>().material.color;
+            originalColor = bloodImage.color;
+            bloodImage.GetComponent<Image>().color = Color.clear;
         }
         
         public void SetNextPoint(Transform checkpoint) {
@@ -30,18 +32,30 @@ public class camMoveScript : MonoBehaviour {
         }
 
         public void RedFlash() {
-
-            getDamage = true;
-
-            StartCoroutine(Wait());
+            Debug.Log("flash");
+        
+            StartCoroutine(Pulse());
 
         }
 
-        public IEnumerator Wait() {
-
-            yield return new WaitForSeconds(2);
-    
-            getDamage = false;
+        private IEnumerator Pulse() {
+            
+            Debug.Log("pulse");
+            bloodImage.GetComponent<Image>().color = Color.red;
+            yield return new WaitForSeconds(.1f);
+            bloodImage.GetComponent<Image>().color = Color.clear;
+            yield return new WaitForSeconds(.1f);
+            bloodImage.GetComponent<Image>().color = Color.red;
+            yield return new WaitForSeconds(.1f);
+            bloodImage.GetComponent<Image>().color = Color.clear;
+            yield return new WaitForSeconds(.1f);
+            bloodImage.GetComponent<Image>().color = Color.red;
+            yield return new WaitForSeconds(.2f);
+            bloodImage.GetComponent<Image>().color = Color.clear;
+            yield return new WaitForSeconds(.2f);
+            bloodImage.GetComponent<Image>().color = Color.red;
+            yield return new WaitForSeconds(.2f);
+            bloodImage.GetComponent<Image>().color = Color.clear;
 
         }
 
@@ -65,17 +79,6 @@ public class camMoveScript : MonoBehaviour {
             
             }
         
-           if (getDamage)
-         {
-            bloodImage.SetActive(true);
-            
-            color.a -= 20f;
-            bloodImage.GetComponent<Renderer>().material.color -= new Color(0,0,0,.10f);
-         }
-         if (!getDamage)
-         {
-            //bloodImage.SetActive(false);
-         }
         }
 }
 
