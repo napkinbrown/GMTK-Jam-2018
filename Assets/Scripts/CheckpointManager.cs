@@ -18,10 +18,13 @@ public class CheckpointManager : MonoBehaviour {
         foreach (Transform child in transform) checkpointList.Add(child.gameObject);
         checkpoints = checkpointList.ToArray();
 	}
-	
-	public Transform NextCheckpoint() {
-        if (current <= checkpoints.Length)
+
+    public Transform NextCheckpoint() {
+        if (current < checkpoints.Length) { 
             return checkpoints[current++].transform;
-        else return null;
+        } else {
+            current = 1;
+         return checkpoints[current++].transform;
+        }
     }
 }

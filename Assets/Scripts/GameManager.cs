@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour {
     public int playerScore;
     public bool GameOver;
     public bool GamePaused;
-  
+
+    public GameObject gameOverG;
+
     private void Awake()
     {
 
@@ -38,12 +40,25 @@ public class GameManager : MonoBehaviour {
         currentBullets = PlayerController.initialBullets;
 
         updateHUD();
+
+        StartCoroutine(ChangeCamera());
     }
-    
+
+
+    IEnumerator ChangeCamera()
+    {
+        while (true) {
+            yield return new WaitForSeconds(5);
+            cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
+        }
+    }
+
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown(KeyCode.F))
-                cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
+        healthText.text = "" + currentHealth;
+
+        //if (Input.GetKeyDown(KeyCode.F))
+        //      cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
 
         if (Input.GetKeyDown(KeyCode.P))
             if (GamePaused)
@@ -70,6 +85,7 @@ public class GameManager : MonoBehaviour {
             //Destroy or disable character
             GameOver = true;
             Death();
+            gameOverG.SetActive(true);
         }
         else if (GamePaused)
         {
@@ -92,13 +108,17 @@ public class GameManager : MonoBehaviour {
 
     public void onHit(int amount){
 		currentHealth -= amount;
-		if(currentHealth <= 0)
+        healthText.text = "" + currentHealth;
+        if (currentHealth <= 0)
 		{
 			currentHealth = 0;
 			//change on creation of death state
 			Death();
+
 		}
-	}
+        updateHUD();
+
+    }
   
 	public void onPickup(int amount){
 		currentHealth += amount;
@@ -109,7 +129,8 @@ public class GameManager : MonoBehaviour {
 	}
     
 	void Death () {
-		isDead = true;
+        healthText.text = "" + currentHealth;
+        isDead = true;
 		Debug.Log("YOUre ARE DeaD G!");
     }
     
