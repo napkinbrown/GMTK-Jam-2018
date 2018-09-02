@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
   
-    public const int maxHealth = 100;
+    public const int maxHealth = 3;
     public int currentHealth;
 	public int currentBullets = 5;
 	bool isDead;
@@ -17,9 +17,15 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     public int playerScore;
+    public bool GameOver;
+    public bool GamePaused;
   
     private void Awake()
     {
+
+        GameOver = false;
+        GamePaused = false;
+
         // Singleton
         if (instance == null)
           instance = this;
@@ -31,6 +37,7 @@ public class GameManager : MonoBehaviour {
 
         currentBullets = PlayerController.initialBullets;
 
+        ToggleHideMouse();
         updateHUD();
     }
     
@@ -38,6 +45,42 @@ public class GameManager : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown(KeyCode.F))
                 cameraManager.GetComponent<CameraManager>().MoveToNextCheckpoint();
+      
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ToggleHideMouse();
+      
+        if (Input.GetKeyDown(KeyCode.P))
+            if (GamePaused)
+            {
+                GamePaused = false;
+            } else
+            {
+                GamePaused = true;
+            }
+
+        if (Input.GetKeyDown(KeyCode.O))
+            if (GameOver)
+            {
+                GameOver = false;
+            }
+            else
+            {
+                GameOver = true;
+            }
+
+        if (currentHealth <= 0)
+        {
+            //Game over screen 
+            //Destroy or disable character
+            GameOver = true;
+            Death();
+        }
+        else if (GamePaused)
+        {
+            //Disable enemy
+            //Disable Character
+            //Activate pause screen
+        }
     }
 
     public void updateHUD()
@@ -70,7 +113,7 @@ public class GameManager : MonoBehaviour {
     
 	void Death () {
 		isDead = true;
-		Debug.Log("YOU ARE DEAD");
+		Debug.Log("YOUre ARE DeaD G!");
     }
     
     /**
@@ -123,10 +166,22 @@ public class GameManager : MonoBehaviour {
             //Load death screen
         }
     }
-    
+
     public void EnemyDestroyed()
     {
         playerScore += 10;
+    }
+
+    public void ToggleHideMouse()
+    {
+        if (Cursor.visible)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else {
+            Cursor.visible = true;
+        }
     }
 
 }
