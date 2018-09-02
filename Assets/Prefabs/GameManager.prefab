@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0ee6ae74fae88488db64f69e31a6ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraManager: {fileID: 0}
   playerScore: 0
   playerHealth: 0
