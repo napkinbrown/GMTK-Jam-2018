@@ -35,66 +35,68 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //Check if enemy health is greater than 0, if so update movement.
-        //If not, then update player score and destroy this enemy.
-        if (enemyHealth > 0)
+        if (!gameManager.GamePaused && !gameManager.GameOver)
         {
-            if (enemyMovePoint.Count == 0) // if there are move enemy move points then look at camera
+            //Check if enemy health is greater than 0, if so update movement.
+            //If not, then update player score and destroy this enemy.
+            if (enemyHealth > 0)
             {
-                Player = GameObject.FindWithTag("MainCamera").transform;
-            }
-            else // If there are still move point then look at the given move point
-            {
-                Player = lookAtMeObj.transform;
-            }
-
-            this.transform.LookAt(Player); // Makes the enemy look at the game object refrenced above
-
-            if (Vector3.Distance(this.transform.position, Player.position) >= MinDist)
-            {
-                if (Vector3.Distance(this.transform.position, Player.position) <= MaxDist)
+                if (enemyMovePoint.Count == 0) // if there are move enemy move points then look at camera
                 {
-                    //Here Call any function U want Like Shoot at here or something
-                    this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+                    Player = GameObject.FindWithTag("MainCamera").transform;
                 }
-            }
-
-            //Attack player if close enough and no more move points
-            if ((Vector3.Distance(this.transform.position, Player.position) <= AttackDist))
-            {
-                if (enemyMovePoint.Count == 0 && (Time.time > nextFire))
+                else // If there are still move point then look at the given move point
                 {
-                    nextFire = Time.time + fireRate;
-                    spRndrer.enabled = false;
-                    gameObject.SetActive(false);
-
-                    //TODO: make enemy attack noise                       }
-
-                    //Everything past the line below will not be run
-                    gameManager.CharacterAttacked();
+                    Player = lookAtMeObj.transform;
                 }
-                else //remove old emeny move point and set new one if available 
-                {
-                    enemyMovePoint.RemoveAt(0);
 
-                    if (enemyMovePoint.Count > 0)
+                this.transform.LookAt(Player); // Makes the enemy look at the game object refrenced above
+
+                if (Vector3.Distance(this.transform.position, Player.position) >= MinDist)
+                {
+                    if (Vector3.Distance(this.transform.position, Player.position) <= MaxDist)
                     {
-                        lookAtMeObj = enemyMovePoint[0];
+                        //Here Call any function U want Like Shoot at here or something
+                        this.transform.position += this.transform.forward * MoveSpeed * Time.deltaTime;
+                    }
+                }
+
+                //Attack player if close enough and no more move points
+                if ((Vector3.Distance(this.transform.position, Player.position) <= AttackDist))
+                {
+                    if (enemyMovePoint.Count == 0 && (Time.time > nextFire))
+                    {
+                        nextFire = Time.time + fireRate;
+                        spRndrer.enabled = false;
+                        gameObject.SetActive(false);
+
+                        //TODO: make enemy attack noise                       }
+
+                        //Everything past the line below will not be run
+                        gameManager.CharacterAttacked();
+                    }
+                    else //remove old emeny move point and set new one if available 
+                    {
+                        enemyMovePoint.RemoveAt(0);
+
+                        if (enemyMovePoint.Count > 0)
+                        {
+                            lookAtMeObj = enemyMovePoint[0];
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            //Needs: play Death sound
-            StartCoroutine(EnemyDeathFlash(0.1f));
+            else
+            {
+                //Needs: play Death sound
+                StartCoroutine(EnemyDeathFlash(0.1f));
 
-            //Everything past the line below will not be run
-            gameManager.EnemyDestroyed();
-            //Destroy(this.gameObject);
-        }
+                //Everything past the line below will not be run
+                gameManager.EnemyDestroyed();
+                //Destroy(this.gameObject);
+            }
 
+        }
     }
 
     //Simple function to update the current enemy's health
