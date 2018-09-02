@@ -7,16 +7,21 @@ public class EnemyManager : MonoBehaviour {
     private List<GameObject> enemyCheckpoints;
     private List<GameObject> enemies;
 
+    private List<GameObject> currentEnemies;
+
     // Use this for initialization
     void Start() {
+    
         for (int i = 0; i < this.transform.childCount; i++)
         {
             GameObject child = this.transform.GetChild(i).gameObject;
-            if (child.tag == "Enemies")
+            if (child.tag == "Enemies") {
                 enemies = getListOfChildren(child);
+            }     
             if (child.tag == "EnemyCheckpointList")
                 enemyCheckpoints = getListOfChildren(child);
         }
+
     }
 
     private List<GameObject> getListOfChildren(GameObject child) {
@@ -29,9 +34,11 @@ public class EnemyManager : MonoBehaviour {
         return listOfChildren;
     }
 
-    public List<GameObject> getEnemyCheckpoints()
+    public GameObject getNextEnemyCheckpoint()
     {
-        return enemyCheckpoints;
+        GameObject checkpoint = enemyCheckpoints[0];
+        enemyCheckpoints.RemoveAt(0);
+        return checkpoint;
     }
 
     public List<GameObject> getEnemies(bool includeDeactivated)
@@ -39,13 +46,42 @@ public class EnemyManager : MonoBehaviour {
         if (includeDeactivated)
             return enemies;
 
-        List<GameObject> activeEnemies = new List<GameObject>;
-        foreach (GameObject enemy in enemies) {
+        List<GameObject> activeEnemies = new List<GameObject>();
+        foreach (GameObject enemy in enemies)
+        {
             if (enemy.activeInHierarchy)
                 activeEnemies.Add(enemy);
         }
 
         return activeEnemies;
+    }
+
+    public List<GameObject> getNonActiveEnemies() {
+        List<GameObject> nonActiveEnemies = new List<GameObject>();
+        foreach (GameObject enemy in enemies)
+        {
+            if (!enemy.activeInHierarchy)
+                nonActiveEnemies.Add(enemy);
+        }
+        return nonActiveEnemies;
+    }
+
+    public void spawnEnemiesAtNextCheckpoint() {
+        currentEnemies = new List<GameObject>();
+
+        GameObject checkpointObj = getNextEnemyCheckpoint();
+        EnemyCheckpoint checkpoint = checkpointObj.GetComponent<EnemyCheckpoint>();
+
+        List<Transform> spawns = checkpoint.GetSpawnLocationsAtCheckpoint();
+        List<GameObject> asleepEnemies = getNonActiveEnemies();
+        foreach (Transform spawn in spawns)
+        {
+            GameObject enemy = Instantiate(enemies[0]);
+
+            enemy.GetComponent<EnemyController>().SetupEnemy(spawn);
+            currentEnemies.Add(enemy);
+            asleepEnemies.RemoveAt(0);
+        }
     }
 
     public List<GameObject> getEnemies()

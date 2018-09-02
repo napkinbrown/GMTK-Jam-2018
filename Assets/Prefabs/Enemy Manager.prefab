@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114401103716534536}
   m_Layer: 0
   m_Name: Enemy Checkpoint List
-  m_TagString: Untagged
+  m_TagString: EnemyCheckpointList
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4499849641569668}
   m_Layer: 0
   m_Name: Enemies
-  m_TagString: Untagged
+  m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4306301305808978}
+  - component: {fileID: 114194168409081242}
   m_Layer: 0
   m_Name: Enemy Manager
   m_TagString: Untagged
@@ -271,7 +272,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1900438035109824}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7036171, y: 2.6144295, z: 4.3026767}
+  m_LocalPosition: {x: 4.3854713, y: 0.15524673, z: 9.545926}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4499849641569668}
@@ -564,6 +565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 0
+  maxEnemyHealth: 4
   Player: {fileID: 0}
   MoveSpeed: 1
   MaxDist: 100
@@ -572,6 +574,19 @@ MonoBehaviour:
   AttackDist: 2
   gameManager: {fileID: 0}
   gObj: {fileID: 0}
+  spRndrer: {fileID: 0}
+  enemyMovePoint: []
+--- !u!114 &114194168409081242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900438035109824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d04282dc59d5214e863199c37c04870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114401103716534536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,6 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 0
+  maxEnemyHealth: 4
   Player: {fileID: 0}
   MoveSpeed: 1
   MaxDist: 100
@@ -603,6 +619,8 @@ MonoBehaviour:
   AttackDist: 2
   gameManager: {fileID: 0}
   gObj: {fileID: 0}
+  spRndrer: {fileID: 0}
+  enemyMovePoint: []
 --- !u!114 &114901350064414980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -615,6 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealth: 0
+  maxEnemyHealth: 4
   Player: {fileID: 0}
   MoveSpeed: 1
   MaxDist: 100
@@ -623,6 +642,8 @@ MonoBehaviour:
   AttackDist: 2
   gameManager: {fileID: 0}
   gObj: {fileID: 0}
+  spRndrer: {fileID: 212280300391078428}
+  enemyMovePoint: []
 --- !u!114 &114973526000850952
 MonoBehaviour:
   m_ObjectHideFlags: 1
