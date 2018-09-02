@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
     public Transform gunPosition;
 
     public AudioSource gunShot;
+    public AudioSource reload;
 
     void Start()
     {
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R)) {
             StartCoroutine("Reload");
+            reload.Play();
         }
         RaycastHit hitInfo = GetHit();
         if (hitInfo.collider.CompareTag("CameraMan")) {
@@ -153,6 +155,7 @@ public class PlayerController : MonoBehaviour {
         {
             reloading = true;
             gm.PlayerIsReloading();
+            reload.Play();
 
             yield return new WaitForSeconds(reloadForSeconds);
 

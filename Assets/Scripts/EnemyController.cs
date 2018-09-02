@@ -91,7 +91,6 @@ public class EnemyController : MonoBehaviour
             //Needs: play Death sound
             StartCoroutine(EnemyDeathFlash(0.1f));
             
-            deathSound.Play();
             //Everything past the line below will not be run
             gameManager.EnemyDestroyed();
             //Destroy(this.gameObject);
@@ -103,6 +102,7 @@ public class EnemyController : MonoBehaviour
     public void EnemyTakeDamage()
     {
         enemyHealth -= 1;
+        deathSound.Play();
     }
 
     public IEnumerator EnemyDeathFlash(float x)
