@@ -51,6 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0ee6ae74fae88488db64f69e31a6ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 100
+  bullets: 5
+  printHealth: {fileID: 0}
+  printBullets: {fileID: 0}
   cameraManager: {fileID: 0}
   playerScore: 0
-  playerHealth: 0
+  playerHealth: 10

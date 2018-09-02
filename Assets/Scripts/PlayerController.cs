@@ -12,11 +12,8 @@ public class PlayerController : MonoBehaviour {
 
     public float reloadForSeconds;
 
-    public int initialBullets = 6;
-    private int currentBullets
-    {
-        get; set;
-    }
+    public static int initialBullets = 6;
+    public int currentBullets = 0;
 
     private bool reloading = false;
 
@@ -25,12 +22,21 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
+        currentBullets = initialBullets;
+        Debug.Log(currentBullets);
+
+        /* 
+         * Getting the Game Manager
+         */
         GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
         if (gmObject != null)
             gm = gmObject.GetComponent<GameManager>();
         else
             Debug.LogError("Could not find Game Manager! Please make sure there is one in the scene!", this);
 
+        /*
+         * Getting the gun object
+         */
         GameObject[] children = GetComponentsInChildren<GameObject>();
         foreach (GameObject child in children) {
             if (child.name == "Gun")
@@ -38,8 +44,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (gunPosition == null)
             Debug.LogError("Couldn't find player gun object!", this);
-
-        currentBullets = initialBullets;
+        /* !!! Do not put anything below here in Update. Unity is stupid and won't do what you want !!! */
     }
 
     void Update ()
@@ -103,25 +108,29 @@ public class PlayerController : MonoBehaviour {
 
     private void FireGun()
     {
-        currentBullets--;
-        RaycastHit hitInfo;
-
-        float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
-        float xComponent = Mathf.Cos(gunRotation * Mathf.Deg2Rad);
-        float zComponent = -Mathf.Sin(gunRotation * Mathf.Deg2Rad);
-        Vector3 direction = new Vector3(xComponent, 0, zComponent);
-
-        // Layer mask determines what gets hit. Here i'm telling it to hit everything except the Player layer
-        // It uses bitshifting, which is a weird way to do it, but w/e
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
-
-        Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
-        Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
-
-        if (hitInfo.collider != null)
+        if (currentBullets > 0)
         {
-            gm.PlayerShotObject(hitInfo, currentBullets);
+            currentBullets--;
+            Debug.Log(currentBullets);
+            RaycastHit hitInfo;
+
+            float gunRotation = gunPosition.rotation.eulerAngles.y; //In degrees
+            float xComponent = Mathf.Cos(gunRotation * Mathf.Deg2Rad);
+            float zComponent = -Mathf.Sin(gunRotation * Mathf.Deg2Rad);
+            Vector3 direction = new Vector3(xComponent, 0, zComponent);
+
+            // Layer mask determines what gets hit. Here i'm telling it to hit everything except the Player layer
+            // It uses bitshifting, which is a weird way to do it, but w/e
+            int layerMask = 1 << 8;
+            layerMask = ~layerMask;
+
+            Debug.DrawRay(gunPosition.position, direction, Color.black, 10f);
+            Physics.Raycast(gunPosition.position, direction, out hitInfo, Mathf.Infinity, layerMask, QueryTriggerInteraction.Collide);
+
+            if (hitInfo.collider != null)
+            {
+                gm.PlayerShotObject(hitInfo, currentBullets);
+            }
         }
     }
 
@@ -129,13 +138,13 @@ public class PlayerController : MonoBehaviour {
         if (!reloading && (currentBullets < initialBullets))
         {
             reloading = true;
-
             gm.PlayerIsReloading();
+
             yield return new WaitForSeconds(reloadForSeconds);
-            gm.PlayerIsDoneReloading();
 
             currentBullets = initialBullets;
             reloading = false;
+            gm.PlayerIsDoneReloading();
         }
     }
 }
