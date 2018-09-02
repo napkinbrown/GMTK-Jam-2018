@@ -6,25 +6,29 @@ public class EnemyController : MonoBehaviour {
     public int enemyHealth;
     public Transform Player;
     public int MoveSpeed = 4;
-    public int MaxDist = 10;
+    public int MaxDist = 100;
     public int MinDist = 1;
     public float fireRate = 1.5F;
     private float nextFire = 0.0F;
     public int AttackDist = 2;
+    public GameManager gameManager;
+    public GameObject gObj;
 
     // Use this for initialization
     void Start () {
         enemyHealth = 4;
+        gObj = GameObject.FindWithTag("GameManager");
+        gameManager = gObj.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update() { 
 
         //Check if enemy health is greater than 0, if so update movement.
         //If not, then update player score and destroy this enemy.
         if (enemyHealth > 0)
         {
-            Player = GameObject.FindWithTag("Player").transform;
+            Player = GameObject.FindWithTag("MainCamera").transform;
             this.transform.LookAt(Player);
 
             if (Vector3.Distance(this.transform.position, Player.position) >= MinDist)
@@ -40,12 +44,14 @@ public class EnemyController : MonoBehaviour {
             if ((Vector3.Distance(this.transform.position, Player.position) <= AttackDist) && (Time.time > nextFire))
             {
                 nextFire = Time.time + fireRate;
-                Debug.Log("RAWR");
+                gameManager.CharacterAttacked();
             }
         }
         else
         {
             //Needs: Update player score and play Death sound
+            
+            gameManager.EnemyDestroyed();
             Destroy(this.gameObject);
         }
         
