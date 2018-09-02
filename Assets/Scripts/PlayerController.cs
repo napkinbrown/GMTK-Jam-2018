@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public ParticleSystem flashParticle;
+
     public float walkSpeed = 2;
     public float strafeSpeed = 2;
     public float mouseSensitivity = 30;
@@ -89,8 +91,10 @@ public class PlayerController : MonoBehaviour {
          */
         if (Input.GetButtonDown("Fire1"))
         {
-            if (currentBullets > 1)
+            if (currentBullets > 1) {
                 FireGun();
+                flashParticle.Play();
+            }
             else {
                 FireGun();
                 StartCoroutine("Reload");

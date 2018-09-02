@@ -116,9 +116,10 @@ public class GameManager : MonoBehaviour {
   
     public void CharacterAttacked()
     {
-        if (currentHealth > 0)
+        if (currentHealth > 0) {
             currentHealth -= 1;
-        else {
+            cameraManager.GetComponent<CameraManager>().CameraHit();
+        } else {
             //Load death screen
         }
     }
