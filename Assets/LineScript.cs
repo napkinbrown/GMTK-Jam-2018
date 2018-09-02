@@ -20,6 +20,9 @@ public class LineScript : MonoBehaviour {
             {
                 lr.SetPosition(1, hit.point);
             }
+            if (hit.Equals("Main Camera")) {
+                Debug.Log ("Don't shoot me!");
+            }
         }
         else lr.SetPosition(1, transform.forward*5000);
     }

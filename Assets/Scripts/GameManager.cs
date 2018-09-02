@@ -43,13 +43,16 @@ public class GameManager : MonoBehaviour {
             enemy.EnemyTakeDamage();
 
         }
+        if (hitObject.tag == "MainCamera") {
+            Debug.Log("Don't shoot the camera man!");
+            CharacterAttacked();
+        }
         //GameObject gmObject = GameObject.FindGameObjectWithTag("GameManager");
     }
 
 
     /**
      * THIS IS A PLACEHOLDER FUNCTION
-     * 
      */
     public void PlayerIsReloading()
     {
@@ -63,7 +66,11 @@ public class GameManager : MonoBehaviour {
   
     public void CharacterAttacked()
     {
-        playerHealth -= 1;
+        if (playerHealth > 0)
+            playerHealth -= 1;
+        else {
+            //Load death screen
+        }
     }
     
     public void EnemyDestroyed()
