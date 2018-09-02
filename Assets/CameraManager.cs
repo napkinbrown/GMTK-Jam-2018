@@ -13,6 +13,10 @@ public class CameraManager : MonoBehaviour {
 	void Start () {
 		turnDistance = 1F;
 	}
+
+    public void CameraHit() {
+        cam.GetComponent<camMoveScript>().RedFlash();
+    }
 	
 	public void MoveToNextCheckpoint() {
         Debug.Log("CamManager: Getting Next Checkpoint");
