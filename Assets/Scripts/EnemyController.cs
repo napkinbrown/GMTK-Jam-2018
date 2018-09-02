@@ -75,8 +75,8 @@ public class EnemyController : MonoBehaviour {
             spRndrer.enabled = true;
             yield return new WaitForSeconds(x);
 
-            Debug.Log(spRndrer + " lol " + i);
         }
+        spRndrer.enabled = false;
     }
 }
 
