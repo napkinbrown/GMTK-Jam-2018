@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +20,11 @@ public class LineScript : MonoBehaviour {
             {
                 lr.SetPosition(1, hit.point);
             }
+            if (hit.Equals("Main Camera")) {
+                Debug.Log ("Don't shoot me!");
+            }
         }
         else lr.SetPosition(1, transform.forward*5000);
     }
 }
+
